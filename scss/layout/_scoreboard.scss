@@ -1,0 +1,136 @@
+@use "../abstracts/colors" as colors;
+@use "../abstracts/mixins" as mixins;
+
+// ============================================
+// Scoreboard Layout
+// ============================================
+// Responsive scoreboard panels for legacy + session scores
+.scoreboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+
+  @include mixins.breakpoint-up(800px) {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    max-width: 720px;
+  }
+
+  // Individual scoreboard panel (Legacy / Session)
+  .scoreboard__panel {
+    width: 100%;
+    max-width: 500px;
+    @include mixins.panel-rpg;
+    @include mixins.panel-corners(8px, colors.$color-gold-dim);
+
+    @include mixins.breakpoint-up(800px) {
+      max-width: 48%;
+    }
+  }
+
+  // Title row: Legacy / Session label centered
+  .scoreboard__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.3rem 0.75rem;
+    background-color: rgba(201, 168, 76, 0.05);
+    border-bottom: 1px solid colors.$color-border-subtle;
+
+    p {
+      font-family: "Metamorphous", serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: colors.$color-text-muted;
+
+      @include mixins.breakpoint-up(768px) {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  // Column header row: player name — computer
+  .scoreboard__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.3rem 0.75rem;
+    background-color: rgba(201, 168, 76, 0.08);
+    border-bottom: 1px solid colors.$color-border-gold;
+
+    p {
+      font-family: "Metamorphous", serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: colors.$color-gold;
+      white-space: nowrap;
+      width: 50%;
+
+      @include mixins.breakpoint-up(768px) {
+        font-size: 0.75rem;
+      }
+
+      &:first-child {
+        text-align: left;
+      }
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  // Score row
+  .scoreboard__row {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  // Individual score cell
+  .scoreboard__score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    min-height: 2.2rem;
+    font-family: "Metamorphous", serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: colors.$color-text-primary;
+    transition:
+      color 0.2s,
+      background-color 0.2s;
+
+    @include mixins.breakpoint-landscape(768px, 1024px) {
+      min-height: 1.4rem;
+    }
+
+    @include mixins.breakpoint-up(768px) {
+      min-height: 2.6rem;
+      font-size: 1.4rem;
+    }
+
+    // Divider between player and computer score
+    &:nth-child(odd) {
+      border-right: 1px solid colors.$color-border-subtle;
+    }
+
+    // Accessible focus state
+    &:focus {
+      outline: none;
+      background-color: rgba(201, 168, 76, 0.1);
+      color: colors.$color-gold-bright;
+    }
+  }
+}

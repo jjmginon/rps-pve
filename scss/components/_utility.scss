@@ -1,0 +1,361 @@
+@use "../abstracts/colors" as colors;
+@use "../abstracts/mixins" as mixins;
+
+// ============================================
+// Utility Classes
+// ============================================
+
+// Quick centering utility for text
+.center {
+  text-align: center;
+}
+
+// Force-hide element (important override)
+.hidden {
+  display: none !important;
+}
+
+// ============================================
+// Play Again Button
+// ============================================
+// Themed action button with gold glow + corner brackets
+.btn-play-again {
+  position: relative;
+  min-width: 180px;
+  min-height: 48px;
+  padding: 0.6rem 1.5rem;
+  font-family: "Metamorphous", serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: colors.$color-gold-bright;
+  background-color: colors.$color-bg-raised;
+  border: 1px solid colors.$color-gold;
+  cursor: pointer;
+  outline: none;
+  box-shadow:
+    0 0 16px rgba(201, 168, 76, 0.2),
+    inset 0 0 20px rgba(0, 0, 0, 0.4);
+  animation: reveal-up 0.4s ease-out;
+  transition:
+    color 0.2s,
+    background-color 0.2s,
+    box-shadow 0.2s;
+  @include mixins.panel-corners(8px, colors.$color-gold);
+
+  &:hover {
+    background-color: rgba(201, 168, 76, 0.12);
+    box-shadow:
+      0 0 28px rgba(201, 168, 76, 0.4),
+      inset 0 0 20px rgba(201, 168, 76, 0.05);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  @include mixins.breakpoint-up(768px) {
+    min-width: 220px;
+    font-size: 1rem;
+  }
+}
+
+// ============================================
+// Herald Screen (title / name entry)
+// ============================================
+// Fullscreen overlay with RPG-themed background + dismiss animation
+.herald-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background-color: colors.$color-bg-base;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    ),
+    radial-gradient(
+      ellipse at 50% 30%,
+      rgba(201, 168, 76, 0.06) 0%,
+      transparent 65%
+    );
+
+  &.dismissing {
+    animation: fade-out 0.5s ease-out forwards;
+    pointer-events: none;
+  }
+
+  .herald-screen__title {
+    font-family: "Metamorphous", serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-align: center;
+    text-transform: uppercase;
+    @include mixins.text-gold-glow;
+
+    @include mixins.breakpoint-up(768px) {
+      font-size: 2rem;
+    }
+  }
+
+  .herald-screen__subtitle {
+    font-family: "Almendra", Georgia, serif;
+    font-size: 0.85rem;
+    font-style: italic;
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: colors.$color-text-muted;
+
+    @include mixins.breakpoint-up(768px) {
+      font-size: 1.1rem;
+    }
+  }
+
+  // Divider line with decorative gradient
+  .herald-screen__divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 360px;
+    color: colors.$color-gold-dim;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+
+    &::before,
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        colors.$color-gold-dim,
+        transparent
+      );
+    }
+  }
+
+  // Input group for player name entry
+  .herald-screen__input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 320px;
+
+    label {
+      font-family: "Metamorphous", serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: colors.$color-text-muted;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      font-family: "Almendra", Georgia, serif;
+      font-size: 1rem;
+      color: colors.$color-text-primary;
+      text-align: center;
+      background-color: colors.$color-bg-raised;
+      border: 1px solid colors.$color-border-gold;
+      outline: none;
+      transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+
+      &::placeholder {
+        color: colors.$color-text-ghost;
+        font-style: italic;
+      }
+
+      &:focus {
+        border-color: colors.$color-gold-bright;
+        box-shadow: 0 0 12px rgba(201, 168, 76, 0.2);
+      }
+    }
+  }
+
+  // Actions wrapper (warning + buttons)
+  .herald-screen__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 400px;
+
+    .herald-screen__warning {
+      order: -1;
+      width: 100%;
+    }
+
+    .btn-herald {
+      flex-shrink: 0;
+    }
+  }
+
+  // Button row layout
+  .herald-screen__button-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+
+    @include mixins.breakpoint-up(480px) {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+}
+
+// ============================================
+// Herald Screen Buttons
+// ============================================
+// Themed buttons with variants for new game + reset confirmation
+.btn-herald {
+  position: relative;
+  min-width: 140px;
+  min-height: 48px;
+  padding: 0.6rem 1.25rem;
+  font-family: "Metamorphous", serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: colors.$color-gold-bright;
+  background-color: colors.$color-bg-raised;
+  border: 1px solid colors.$color-gold;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 0 12px rgba(201, 168, 76, 0.15);
+  transition:
+    color 0.2s,
+    background-color 0.2s,
+    box-shadow 0.2s;
+  @include mixins.panel-corners(6px, colors.$color-gold-dim);
+
+  &:hover {
+    background-color: rgba(201, 168, 76, 0.1);
+    box-shadow: 0 0 22px rgba(201, 168, 76, 0.35);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  // New Game — dimmer, secondary treatment
+  &.btn-herald--new-game {
+    color: colors.$color-text-muted;
+    border-color: colors.$color-border-subtle;
+    box-shadow: none;
+
+    &:hover {
+      color: colors.$color-gold-bright;
+      border-color: colors.$color-border-gold;
+      box-shadow: 0 0 14px rgba(201, 168, 76, 0.2);
+    }
+  }
+
+  // Warning state for "New Game" confirmation
+  &.btn-herald--confirm-reset {
+    color: colors.$color-defeat-light;
+    border-color: rgba(192, 57, 43, 0.5);
+
+    &:hover {
+      background-color: rgba(139, 26, 26, 0.2);
+      box-shadow: 0 0 14px rgba(192, 57, 43, 0.3);
+    }
+  }
+}
+
+// ============================================
+// End Game Actions Wrapper
+// ============================================
+// Normal flow container for exit + play again buttons
+.end-game-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.5rem 0 1rem;
+
+  @include mixins.breakpoint-up(480px) {
+    flex-direction: row;
+  }
+}
+
+// ============================================
+// Exit Game Button
+// ============================================
+// Secondary action button with muted styling
+.btn-exit-game {
+  position: relative;
+  min-width: 180px;
+  min-height: 48px;
+  padding: 0.6rem 1.5rem;
+  font-family: "Metamorphous", serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: colors.$color-text-muted;
+  background-color: colors.$color-bg-raised;
+  border: 1px solid colors.$color-border-subtle;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+  animation: reveal-up 0.4s ease-out;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background-color 0.2s,
+    box-shadow 0.2s;
+  @include mixins.panel-corners(8px, colors.$color-gold-dim);
+
+  &:hover {
+    color: colors.$color-defeat-light;
+    border-color: rgba(192, 57, 43, 0.5);
+    background-color: rgba(139, 26, 26, 0.15);
+    box-shadow: 0 0 16px rgba(192, 57, 43, 0.2);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  @include mixins.breakpoint-up(768px) {
+    min-width: 180px;
+    font-size: 1rem;
+  }
+}
+
+// ============================================
+// Herald Screen Warning (New Game confirmation)
+// ============================================
+// Inline warning message styled with subtle emphasis
+.herald-screen__warning {
+  width: 100%;
+  font-family: "Almendra", Georgia, serif;
+  font-size: 0.75rem;
+  font-style: italic;
+  text-align: center;
+  color: colors.$color-text-muted;
+}

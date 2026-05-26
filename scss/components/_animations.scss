@@ -1,0 +1,101 @@
+// ============================================
+// Animations
+// ============================================
+
+// Countdown number appears — scales in from nothing
+// Recruiter note: combines opacity + scale for smooth entry
+@keyframes fade-in-scale {
+  0% {
+    display: none; // hidden until animation starts
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  1% {
+    display: block;
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Countdown number disappears — scales out and fades
+// Recruiter note: opacity + scale for exit, display toggled at end
+@keyframes fade-out-scale {
+  0% {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+  }
+  99% {
+    display: block;
+    opacity: 0;
+    transform: scale(1.3);
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+
+// Selected weapon tile — breathing gold glow
+// Recruiter note: subtle pulse effect using box-shadow
+@keyframes pulse-gold {
+  0%,
+  100% {
+    box-shadow:
+      0 0 8px rgba(201, 168, 76, 0.3),
+      inset 0 0 12px rgba(201, 168, 76, 0.05);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(201, 168, 76, 0.6),
+      inset 0 0 20px rgba(201, 168, 76, 0.1);
+  }
+}
+
+// Play Again / Exit buttons — rise in from below
+// Recruiter note: transform + blur for performance-friendly reveal
+@keyframes reveal-up {
+  0% {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(12px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Herald screen — fades out when dismissed
+// Recruiter note: simple fade for screen transitions
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+// Rejected weapon tile — fades and collapses simultaneously
+// Recruiter note: combines opacity + width collapse for clear rejection
+@keyframes weapon-reject {
+  0% {
+    opacity: 1;
+    width: 30%;
+    max-width: 140px;
+    margin: 0;
+  }
+  100% {
+    opacity: 0;
+    width: 0;
+    max-width: 0;
+    margin: 0;
+  }
+}

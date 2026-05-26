@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors: PvE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Metamorphous&family=Almendra:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.min.css">
+    <script src="js/main.js" type="module"></script>
+</head>
+
+<body>
+
+    <!-- Herald screen-->
+    <div id="herald-screen" class="herald-screen" role="dialog" aria-modal="true" aria-labelledby="herald-title"
+        aria-describedby="herald-subtitle">
+        <h1 id="herald-title" class="herald-screen__title">Rock Paper Scissors</h1>
+        <p id="herald-subtitle" class="herald-screen__subtitle">The iron mind awaits your challenge.</p>
+
+        <div class="herald-screen__divider" aria-hidden="true">✦</div>
+
+        <div class="herald-screen__input-group">
+            <label for="player-name-input">Your Name</label>
+            <input type="text" id="player-name-input" maxlength="20" placeholder="Enter your name..." autocomplete="off"
+                spellcheck="false">
+        </div>
+
+        <div id="herald-actions" class="herald-screen__actions">
+            <!-- JavaScript renders Begin / Continue / New Game buttons here -->
+        </div>
+    </div>
+
+    <!-- Main game -->
+    <main>
+        <h1 class="center" tabindex="0">Rock Paper Scissors: PvE</h1>
+        <a href="#player-status-message" class="skip-link">Skip Scoreboard</a>
+
+        <!-- Scoreboard -->
+        <section id="scoreboard" class="scoreboard">
+            <h2 class="sr-only">Scoreboard</h2>
+
+            <!-- Legacy scoreboard -->
+            <section id="legacy-scoreboard" class="scoreboard__panel">
+                <h3 class="sr-only">Legacy Scoreboard</h3>
+                <div class="scoreboard__title" aria-hidden="true">
+                    <p>Legacy</p>
+                </div>
+                <div class="scoreboard__header" aria-hidden="true">
+                    <p id="scoreboard-player-name">Player</p>
+                    <p>Computer</p>
+                </div>
+                <div class="scoreboard__row" role="row">
+                    <div id="player-legacy-score" class="scoreboard__score center" role="cell"
+                        aria-label="Player Legacy Wins" tabindex="0">0</div>
+                    <div id="computer-legacy-score" class="scoreboard__score center" role="cell"
+                        aria-label="Computer Legacy Wins" tabindex="0">0</div>
+                </div>
+            </section>
+
+            <!-- Session scoreboard -->
+            <section id="session-scoreboard" class="scoreboard__panel">
+                <h3 class="sr-only">Session Scoreboard</h3>
+                <div class="scoreboard__title" aria-hidden="true">
+                    <p>Session</p>
+                </div>
+                <div class="scoreboard__header" aria-hidden="true">
+                    <p id="scoreboard-player-name-session">Player</p>
+                    <p>Computer</p>
+                </div>
+                <div class="scoreboard__row" role="row">
+                    <div id="player-session-score" class="scoreboard__score center" role="cell"
+                        aria-label="Player Session Wins" tabindex="0">0</div>
+                    <div id="computer-session-score" class="scoreboard__score center" role="cell"
+                        aria-label="Computer Session Wins" tabindex="0">0</div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Player board -->
+        <section id="player-board" class="player-board">
+            <h2 id="player-status-message" class="center" aria-label="Choose your weapon" tabindex="0">Choose your
+                weapon...</h2>
+            <div id="player-gameboard" class="gameboard">
+                <div id="rock" class="weapon-tile">
+                    <img src="img/rock.png" alt="Rock (player choice)" tabindex="0">
+                </div>
+                <div id="paper" class="weapon-tile">
+                    <img src="img/paper.png" alt="Paper (player choice)" tabindex="0">
+                </div>
+                <div id="scissors" class="weapon-tile">
+                    <img src="img/scissors.png" alt="Scissors (player choice)" tabindex="0">
+                </div>
+            </div>
+        </section>
+
+        <!-- Computer board -->
+        <section id="computer-board" class="computer-board">
+            <h2 id="computer-status-message" class="center" aria-label="Computer is choosing" tabindex="0">Computer
+                Chooses...</h2>
+            <div id="computer-gameboard" class="gameboard">
+                <div id="cp_rock" class="weapon-tile">
+                    <img src="img/rock.png" alt="Rock" tabindex="0">
+                </div>
+                <div id="cp_paper" class="weapon-tile">
+                    <img src="img/paper.png" alt="Paper" tabindex="0">
+                </div>
+                <div id="cp_scissors" class="weapon-tile">
+                    <img src="img/scissors.png" alt="Scissors" tabindex="0">
+                </div>
+            </div>
+        </section>
+        <!-- End game actions -->
+        <div class="end-game-actions">
+            <form>
+                <button id="btn-play-again" type="submit" class="btn-play-again hidden">Play Again?</button>
+            </form>
+            <button id="btn-exit-game" type="button" class="btn-exit-game hidden">Exit Game</button>
+        </div>
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+// ============================================
+// Main SCSS entry point
+// ============================================
+// Abstracts: variables, mixins
+// Base: resets, typography
+// Components: accessibility, animations, utilities
+// Layout: scoreboard, gameboard
+
+@use "abstracts/colors" as colors;
+@use "abstracts/mixins" as mixins;
+@use "base/base";
+@use "components/a11y";
+@use "components/animations";
+@use "components/utility";
+@use "layout/scoreboard";
+@use "layout/gameboard";

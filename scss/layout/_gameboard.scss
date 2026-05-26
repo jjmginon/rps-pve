@@ -1,0 +1,132 @@
+@use "../abstracts/colors" as colors;
+@use "../abstracts/mixins" as mixins;
+
+// ============================================
+// Gameboard Layout
+// ============================================
+
+// Shared: player and computer board wrapper
+.player-board,
+.computer-board {
+  width: 100%;
+  padding: 0.5rem 0.75rem 0.75rem;
+  @include mixins.panel-rpg;
+  @include mixins.panel-corners(10px, colors.$color-gold-dim);
+
+  h2 {
+    font-family: "Metamorphous", serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-align: center;
+    text-transform: uppercase;
+    color: colors.$color-text-muted;
+    margin-bottom: 0.3rem;
+
+    @include mixins.breakpoint-up(768px) {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Player board — brighter gold border, active feel
+.player-board {
+  border-color: colors.$color-border-gold;
+}
+
+// Computer board — dimmer border, passive feel
+.computer-board {
+  border-color: colors.$color-border-subtle;
+
+  h2 {
+    color: colors.$color-text-ghost;
+  }
+}
+
+// Weapon tile grid
+.gameboard {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 0.4rem;
+  width: 100%;
+  transition: gap 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Individual weapon tile
+  .weapon-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    max-width: 140px;
+    aspect-ratio: 1;
+    border-radius: 4px;
+    cursor: pointer;
+    @include mixins.panel-rpg;
+    border-color: colors.$color-border-subtle;
+    transition:
+      border-color 0.25s,
+      box-shadow 0.25s,
+      background-color 0.25s;
+
+    img {
+      width: 85%;
+      max-width: 100px;
+      cursor: pointer;
+      outline: none;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+      transition:
+        filter 0.3s,
+        transform 0.3s;
+    }
+
+    // Hover / keyboard focus — lift weapon image
+    &:hover img,
+    &:focus-within img {
+      transform: scale(1.1) translateY(-3px);
+      filter: drop-shadow(0 6px 14px rgba(201, 168, 76, 0.35));
+    }
+
+    &:hover,
+    &:focus-within {
+      border-color: colors.$color-gold;
+      box-shadow:
+        0 0 16px rgba(201, 168, 76, 0.2),
+        inset 0 0 10px rgba(201, 168, 76, 0.05);
+    }
+
+    // Countdown numbers shown during computer animation
+    p {
+      font-family: "Metamorphous", serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: colors.$color-gold;
+      animation: fade-in-scale 0.6s ease-in;
+
+      @include mixins.breakpoint-up(768px) {
+        font-size: 4rem;
+      }
+    }
+
+    // Countdown fade-out class applied via JS
+    .fadeOut {
+      opacity: 0;
+      animation: fade-out-scale 1s ease-in-out;
+    }
+  }
+
+  // Chosen weapon — centered with gold pulse
+  .weapon-tile--selected {
+    margin: 0 auto;
+    border-color: colors.$color-gold !important;
+    animation: pulse-gold 2s infinite;
+    transition: margin 0.5s linear;
+  }
+
+  // Unchosen weapons — fade and dim in place, preserve layout
+  .weapon-tile--rejected {
+    animation: weapon-reject 0.4s ease-out forwards;
+    pointer-events: none;
+    cursor: default;
+  }
+}
