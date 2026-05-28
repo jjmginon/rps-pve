@@ -99,3 +99,26 @@
     margin: 0;
   }
 }
+
+// "Rock... Paper... Scissors... Shoot!" word — slides in and out
+@keyframes chant-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes chant-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.8);
+  }
+}

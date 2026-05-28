@@ -45,6 +45,7 @@
   @include mixins.panel-corners(8px, colors.$color-gold);
 
   &:hover {
+    color: colors.$color-gold-bright;
     background-color: rgba(201, 168, 76, 0.12);
     box-shadow:
       0 0 28px rgba(201, 168, 76, 0.4),
@@ -199,11 +200,13 @@
     width: 100%;
     max-width: 400px;
 
+    // Warning always stays above buttons — never goes inline
     .herald-screen__warning {
       order: -1;
       width: 100%;
     }
 
+    // Buttons sit in their own row at wider screens
     .btn-herald {
       flex-shrink: 0;
     }
@@ -358,4 +361,38 @@
   font-style: italic;
   text-align: center;
   color: colors.$color-text-muted;
+}
+
+// ============================================
+// Chant Overlay ("Rock... Paper... Scissors... Shoot!")
+// ============================================
+// Fullscreen overlay shown during the countdown chant
+.chant-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background-color: rgba(13, 14, 18, 0.75);
+}
+
+.chant-word {
+  font-family: "Metamorphous", serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: center;
+  @include mixins.text-gold-glow;
+  animation: chant-in 0.25s ease-out forwards;
+
+  &.chant-word--out {
+    animation: chant-out 0.25s ease-in forwards;
+  }
+
+  @include mixins.breakpoint-up(768px) {
+    font-size: 4rem;
+  }
 }
