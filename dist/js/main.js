@@ -18,7 +18,10 @@ const STORAGE_COMPUTER_LEGACY = "computerLegacy";
 /* Weapon options */
 const WEAPONS = ["rock", "paper", "scissors"];
 
-/* Listener guards — prevent duplicate listeners on re-init */
+/* Chant sequence shown during countdown */
+const CHANT_WORDS = ["Rock...", "Paper...", "Scissors...", "Shoot!"];
+
+/* Listener guard — prevent duplicate listeners on re-init */
 let listenersAttached = false;
 
 /* Initialize App */
@@ -38,14 +41,11 @@ const openHeraldScreen = () => {
     const actionsWrapper = document.getElementById("herald-actions");
     const savedName = localStorage.getItem(STORAGE_PLAYER_NAME);
 
-    // Hide main game from screen readers and keyboard while herald is open
     document.querySelector("main").setAttribute("inert", "");
     document.querySelector("main").setAttribute("aria-hidden", "true");
 
-    // Pre-fill name if returning player
     if (savedName) nameInput.value = savedName;
 
-    // Build buttons based on whether save data exists
     const hasLegacyData = localStorage.getItem(STORAGE_PLAYER_LEGACY) !== null;
     actionsWrapper.innerHTML = "";
 
@@ -59,10 +59,7 @@ const openHeraldScreen = () => {
         actionsWrapper.appendChild(btnBegin);
     }
 
-    // Trap focus inside the herald dialog
     heraldScreen.addEventListener("keydown", trapFocus);
-
-    // Focus the name input
     nameInput.focus();
 };
 
@@ -78,12 +75,10 @@ const buildHeraldButton = (label, classNames, onClick) => {
 const showNewGameConfirmation = (actionsWrapper) => {
     actionsWrapper.innerHTML = "";
 
-    // Warning always stacks above buttons
     const warning = document.createElement("p");
     warning.className = "herald-screen__warning";
     warning.textContent = "Your Legacy will be forgotten...";
 
-    // Buttons go in their own row so they sit side by side at wider screens
     const buttonRow = document.createElement("div");
     buttonRow.className = "herald-screen__button-row";
 
@@ -92,7 +87,6 @@ const showNewGameConfirmation = (actionsWrapper) => {
 
     buttonRow.appendChild(btnConfirm);
     buttonRow.appendChild(btnCancel);
-
     actionsWrapper.appendChild(warning);
     actionsWrapper.appendChild(buttonRow);
 
@@ -113,25 +107,20 @@ const closeHeraldScreen = (resetLegacy) => {
     const nameInput = document.getElementById("player-name-input");
     const enteredName = nameInput.value.trim() || "Player";
 
-    // Save name to game state and storage
     game.setPlayerName(enteredName);
     localStorage.setItem(STORAGE_PLAYER_NAME, enteredName);
 
-    // Erase legacy if confirmed
     if (resetLegacy) {
         game.resetLegacy();
         localStorage.setItem(STORAGE_PLAYER_LEGACY, 0);
         localStorage.setItem(STORAGE_COMPUTER_LEGACY, 0);
     }
 
-    // Remove focus trap before animating out
     heraldScreen.removeEventListener("keydown", trapFocus);
 
-    // Restore main game to screen readers and keyboard
     document.querySelector("main").removeAttribute("inert");
     document.querySelector("main").removeAttribute("aria-hidden");
 
-    // Animate out, then remove and start game
     heraldScreen.classList.add("dismissing");
     heraldScreen.addEventListener("animationend", () => {
         heraldScreen.remove();
@@ -139,7 +128,6 @@ const closeHeraldScreen = (resetLegacy) => {
     }, { once: true });
 };
 
-// Focus trap: keep Tab and Shift+Tab inside the herald dialog
 const trapFocus = (event) => {
     if (event.key !== "Tab") return;
 
@@ -151,13 +139,11 @@ const trapFocus = (event) => {
     const lastFocusable = focusable[focusable.length - 1];
 
     if (event.shiftKey) {
-        // Shift+Tab: if on first element, wrap to last
         if (document.activeElement === firstFocusable) {
             event.preventDefault();
             lastFocusable.focus();
         }
     } else {
-        // Tab: if on last element, wrap to first
         if (document.activeElement === lastFocusable) {
             event.preventDefault();
             firstFocusable.focus();
@@ -171,7 +157,6 @@ const startGame = () => {
     updateScoreboardNames();
     updateScoreboard();
 
-    // Attach listeners only once — guard prevents duplicates on re-init
     if (!listenersAttached) {
         listenForWeaponChoice();
         listenForEnterKey();
@@ -181,6 +166,7 @@ const startGame = () => {
     }
 
     lockComputerBoardHeight();
+    computerPicksFirst();
     document.querySelector("h1").focus();
 };
 
@@ -225,26 +211,55 @@ const updateScoreboard = () => {
     computerSessionEl.ariaLabel = `Computer has ${game.getComputerSession()} wins this session.`;
 };
 
+/* Computer Picks First */
+
+const computerPicksFirst = () => {
+    const computerBoard = document.getElementById("computer-board");
+    const playerBoard = document.getElementById("player-board");
+    const statusMsg = document.getElementById("computer-status-message");
+
+    // Dim and disable player board while computer is choosing
+    playerBoard.classList.add("player-board--waiting");
+
+    // Show "choosing" phase first
+    statusMsg.textContent = "Computer is choosing...";
+    statusMsg.ariaLabel = "Computer is choosing a weapon.";
+
+    // After 1.2s, pick weapon, switch to "chosen", re-enable player board
+    setTimeout(() => {
+        game.currentComputerWeapon = getComputerWeapon();
+        computerBoard.classList.add("computer-board--chosen");
+        statusMsg.textContent = "Computer has chosen...";
+        statusMsg.ariaLabel = "Computer has chosen. Now pick your weapon.";
+
+        // Re-enable player board
+        playerBoard.classList.remove("player-board--waiting");
+    }, 1200);
+};
+
 /* Player Input */
 
 const listenForWeaponChoice = () => {
     const weaponTiles = document.querySelectorAll(".player-board .weapon-tile img");
     weaponTiles.forEach(img => {
         img.addEventListener("click", (event) => {
-            if (game.getIsActive()) return;
+            // Also guard during computer's choosing phase
+            if (game.getIsActive() || !game.currentComputerWeapon) return;
             game.start();
 
-            const chosenWeapon = event.target.parentElement.id;
-            updatePlayerStatusMessage(chosenWeapon);
+            const playerWeapon = event.target.parentElement.id;
 
+            // Highlight chosen tile, collapse others
             weaponTiles.forEach(tile => {
-                const tileEl = tile.parentElement;
-                tileEl.classList.add(
+                tile.parentElement.classList.add(
                     tile === event.target ? "weapon-tile--selected" : "weapon-tile--rejected"
                 );
             });
 
-            runComputerAnimation(chosenWeapon);
+            // Disable player board during chant
+            document.getElementById("player-board").style.pointerEvents = "none";
+
+            runChantSequence(playerWeapon);
         });
     });
 };
@@ -257,64 +272,73 @@ const listenForEnterKey = () => {
     });
 };
 
-/* Status */
+/* Chant Sequence */
 
-const updatePlayerStatusMessage = (weapon) => {
-    const messageEl = document.getElementById("player-status-message");
-    messageEl.textContent = `You chose ${toTitleCase(weapon)}!`;
-};
+const runChantSequence = (playerWeapon) => {
+    // Create overlay
+    const overlay = document.createElement("div");
+    overlay.className = "chant-overlay";
+    document.body.appendChild(overlay);
 
-/* Animation */
+    const WORD_DURATION = 600;
+    const TRANSITION_TIME = 250;
 
-const runComputerAnimation = (playerWeapon) => {
-    let delay = 1000;
-    setTimeout(() => showCountdownNumber("cp_rock", 1), delay);
-    setTimeout(() => showCountdownNumber("cp_paper", 2), delay += 500);
-    setTimeout(() => showCountdownNumber("cp_scissors", 3), delay += 500);
-    setTimeout(() => fadeOutCountdown(), delay += 750);
-    setTimeout(() => {
-        clearCountdown();
-        resolveRound(playerWeapon);
-    }, delay += 1000);
-    setTimeout(() => promptPlayAgain(), delay += 1000);
-};
+    let index = 0;
 
-const showCountdownNumber = (tileId, number) => {
-    const tile = document.getElementById(tileId);
-    const child = tile.firstElementChild;
+    const showNextWord = () => {
+        if (index >= CHANT_WORDS.length) {
+            // All words shown — remove overlay and resolve round
+            overlay.remove();
+            resolveRound(playerWeapon);
+            return;
+        }
 
-    // Guard: only remove if a child actually exists
-    if (child) child.remove();
+        // Create word element
+        const wordEl = document.createElement("p");
+        wordEl.className = "chant-word";
+        wordEl.textContent = CHANT_WORDS[index];
+        overlay.innerHTML = "";
+        overlay.appendChild(wordEl);
 
-    const countdownEl = document.createElement("p");
-    countdownEl.textContent = number;
-    tile.appendChild(countdownEl);
-};
+        index++;
 
-const fadeOutCountdown = () => {
-    document.querySelectorAll(".computer-board .weapon-tile p")
-        .forEach(el => el.className = "fadeOut");
-};
+        // After WORD_DURATION, animate out then show next
+        setTimeout(() => {
+            wordEl.classList.add("chant-word--out");
+            setTimeout(showNextWord, TRANSITION_TIME);
+        }, WORD_DURATION);
+    };
 
-const clearCountdown = () => {
-    document.querySelectorAll(".computer-board .weapon-tile p")
-        .forEach(el => el.remove());
+    showNextWord();
 };
 
 /* Round Resolution */
 
 const resolveRound = (playerWeapon) => {
-    const computerWeapon = getComputerWeapon();
+    const computerWeapon = game.currentComputerWeapon;
     const winner = determineWinner(playerWeapon, computerWeapon);
     const resultMessage = buildResultMessage(winner, playerWeapon, computerWeapon);
 
+    // Reveal computer board
+    const computerBoard = document.getElementById("computer-board");
+    computerBoard.classList.remove("computer-board--chosen");
+    computerBoard.classList.add("computer-board--revealed");
+
+    // Show computer's actual weapon in center tile
+    showComputerWeapon(computerWeapon);
+
+    // Update status messages
+    updatePlayerStatusMessage(playerWeapon, winner);
     showComputerStatusMessage(resultMessage);
     updatePlayAgainAria(resultMessage, winner);
+
+    // Record scores
     recordWinner(winner);
     saveLegacyData(winner);
     updateScoreboard();
-    updatePlayerWinMessage(winner);
-    showComputerWeapon(computerWeapon);
+
+    // Show action buttons after brief delay
+    setTimeout(() => promptPlayAgain(), 800);
 };
 
 const getComputerWeapon = () => WEAPONS[Math.floor(Math.random() * WEAPONS.length)];
@@ -336,7 +360,6 @@ const buildResultMessage = (winner, playerWeapon, computerWeapon) => {
     return `${toTitleCase(attackingWeapon)} ${getAttackVerb(attackingWeapon)} ${toTitleCase(defendingWeapon)}.`;
 };
 
-// Safe fallback prevents silent undefined return
 const getAttackVerb = (weapon) => {
     const verbs = { rock: "smashes", paper: "wraps", scissors: "cuts" };
     return verbs[weapon] ?? "beats";
@@ -348,6 +371,17 @@ const recordWinner = (winner) => {
 };
 
 /* UI updates */
+
+const updatePlayerStatusMessage = (weapon, winner) => {
+    const messageEl = document.getElementById("player-status-message");
+    if (winner === "tie") {
+        messageEl.textContent = "It's a tie!";
+    } else if (winner === "player") {
+        messageEl.textContent = `🏆 ${game.getPlayerName()} wins! 🏆`;
+    } else {
+        messageEl.textContent = "🤖 Computer wins! 🤖";
+    }
+};
 
 const showComputerStatusMessage = (message) => {
     document.getElementById("computer-status-message").textContent = message;
@@ -361,26 +395,25 @@ const updatePlayAgainAria = (result, winner) => {
         `${result} ${winMessage} Click or press Enter to play again.`;
 };
 
-const updatePlayerWinMessage = (winner) => {
-    if (winner === "tie") return;
-    const message = winner === "computer"
-        ? "Computer wins!"
-        : `${game.getPlayerName()} wins!`;
-    document.getElementById("player-status-message").textContent = message;
-};
-
-// Always show computer choice in the center tile (cp_paper),
-// regardless of actual weapon, for consistent UI design.
 const showComputerWeapon = (weapon) => {
-    createWeaponImage(weapon, document.getElementById("cp_paper"));
+    // Hide all computer tiles first
+    WEAPONS.forEach(w => {
+        const tile = document.getElementById(`cp_${w}`);
+        tile.classList.add("weapon-tile--rejected");
+    });
+
+    // Show only the chosen weapon in the center tile
+    const centerTile = document.getElementById("cp_paper");
+    centerTile.classList.remove("weapon-tile--rejected");
+    centerTile.classList.add("weapon-tile--selected");
+    if (centerTile.firstElementChild) centerTile.firstElementChild.remove();
+    createWeaponImage(weapon, centerTile);
 };
 
 const promptPlayAgain = () => {
-    const btnPlayAgain = document.getElementById("btn-play-again");
-    const btnExitGame = document.getElementById("btn-exit-game");
-    btnPlayAgain.classList.remove("hidden");
-    btnExitGame.classList.remove("hidden");
-    btnPlayAgain.focus();
+    document.getElementById("btn-play-again").classList.remove("hidden");
+    document.getElementById("btn-exit-game").classList.remove("hidden");
+    document.getElementById("btn-play-again").focus();
 };
 
 /* Reset */
@@ -393,32 +426,45 @@ const listenForPlayAgain = () => {
 };
 
 const resetBoard = () => {
-    // Reset all tile classes
+    // Clear stored computer weapon so guard blocks clicks until new pick
+    game.currentComputerWeapon = null;
+
+    // Reset tile classes
     document.querySelectorAll(".gameboard div").forEach(tile => {
         tile.className = "weapon-tile";
     });
 
     // Restore computer board images
-    ["rock", "paper", "scissors"].forEach(weapon => {
+    WEAPONS.forEach(weapon => {
         const tile = document.getElementById(`cp_${weapon}`);
         if (tile.firstElementChild) tile.firstElementChild.remove();
         createWeaponImage(weapon, tile);
     });
 
+    // Reset computer board state
+    const computerBoard = document.getElementById("computer-board");
+    computerBoard.classList.remove("computer-board--chosen", "computer-board--revealed");
+
+    // Re-enable player board
+    document.getElementById("player-board").style.pointerEvents = "";
+    document.getElementById("player-board").classList.remove("player-board--waiting");
 
     // Reset status messages
     document.getElementById("player-status-message").textContent = "Choose your weapon...";
-    document.getElementById("computer-status-message").textContent = "Computer Chooses...";
+    document.getElementById("computer-status-message").textContent = "Computer has chosen...";
 
-    // Reset aria label
+    // Reset aria
     document.getElementById("btn-play-again").ariaLabel = "Choose your weapon";
 
-    // Hide action buttons and return focus
+    // Hide buttons and return focus
     document.getElementById("btn-play-again").classList.add("hidden");
     document.getElementById("btn-exit-game").classList.add("hidden");
     document.getElementById("player-status-message").focus();
 
     game.end();
+
+    // Computer picks again for the new round
+    computerPicksFirst();
 };
 
 /* Exit Game */
@@ -428,21 +474,17 @@ const listenForExitGame = () => {
 };
 
 const exitGame = () => {
-    // Wipe all localStorage
     localStorage.removeItem(STORAGE_PLAYER_NAME);
     localStorage.removeItem(STORAGE_PLAYER_LEGACY);
     localStorage.removeItem(STORAGE_COMPUTER_LEGACY);
 
-    // Reset all game state
     game.end();
     game.resetLegacy();
     game.resetSession();
 
-    // Reset board UI first so the game is clean behind the herald
     resetBoard();
     updateScoreboard();
 
-    // Re-inject herald screen markup with updated subtitle
     const heraldMarkup = `
     <div id="herald-screen" class="herald-screen" aria-modal="true" role="dialog" aria-labelledby="herald-title" aria-describedby="herald-subtitle">
       <h1 id="herald-title" class="herald-screen__title">Rock Paper Scissors</h1>
@@ -456,8 +498,6 @@ const exitGame = () => {
     </div>`;
 
     document.body.insertAdjacentHTML("afterbegin", heraldMarkup);
-
-    // Open herald — this also sets inert/aria-hidden on main and traps focus
     openHeraldScreen();
 };
 
