@@ -48,39 +48,47 @@
             <h2 class="sr-only">Scoreboard</h2>
 
             <!-- Legacy scoreboard -->
-            <section id="legacy-scoreboard" class="scoreboard__panel">
-                <h3 class="sr-only">Legacy Scoreboard</h3>
-                <div class="scoreboard__title" aria-hidden="true">
-                    <p>Legacy</p>
-                </div>
-                <div class="scoreboard__header" aria-hidden="true">
-                    <p id="scoreboard-player-name">Player</p>
-                    <p>Computer</p>
-                </div>
-                <div class="scoreboard__row" role="row">
-                    <div id="player-legacy-score" class="scoreboard__score center" role="cell"
-                        aria-label="Player Legacy Wins" tabindex="0">0</div>
-                    <div id="computer-legacy-score" class="scoreboard__score center" role="cell"
-                        aria-label="Computer Legacy Wins" tabindex="0">0</div>
-                </div>
+            <section id="legacy-scoreboard" class="scoreboard__panel" aria-labelledby="legacy-scoreboard-heading">
+                <h3 id="legacy-scoreboard-heading" class="sr-only">Legacy Scoreboard</h3>
+                <table class="scoreboard__table">
+                    <caption class="scoreboard__title">Legacy</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col" id="scoreboard-player-name">Player</th>
+                            <th scope="col">Computer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="player-legacy-score" class="scoreboard__score center"
+                                aria-label="Player Legacy Wins" tabindex="0">0</td>
+                            <td id="computer-legacy-score" class="scoreboard__score center"
+                                aria-label="Computer Legacy Wins" tabindex="0">0</td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
 
             <!-- Session scoreboard -->
-            <section id="session-scoreboard" class="scoreboard__panel">
-                <h3 class="sr-only">Session Scoreboard</h3>
-                <div class="scoreboard__title" aria-hidden="true">
-                    <p>Session</p>
-                </div>
-                <div class="scoreboard__header" aria-hidden="true">
-                    <p id="scoreboard-player-name-session">Player</p>
-                    <p>Computer</p>
-                </div>
-                <div class="scoreboard__row" role="row">
-                    <div id="player-session-score" class="scoreboard__score center" role="cell"
-                        aria-label="Player Session Wins" tabindex="0">0</div>
-                    <div id="computer-session-score" class="scoreboard__score center" role="cell"
-                        aria-label="Computer Session Wins" tabindex="0">0</div>
-                </div>
+            <section id="session-scoreboard" class="scoreboard__panel" aria-labelledby="session-scoreboard-heading">
+                <h3 id="session-scoreboard-heading" class="sr-only">Session Scoreboard</h3>
+                <table class="scoreboard__table">
+                    <caption class="scoreboard__title">Session</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col" id="scoreboard-player-name-session">Player</th>
+                            <th scope="col">Computer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="player-session-score" class="scoreboard__score center"
+                                aria-label="Player Session Wins" tabindex="0">0</td>
+                            <td id="computer-session-score" class="scoreboard__score center"
+                                aria-label="Computer Session Wins" tabindex="0">0</td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
         </section>
 

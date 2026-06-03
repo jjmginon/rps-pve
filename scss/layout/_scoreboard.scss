@@ -33,81 +33,73 @@
     }
   }
 
-  // Title row: Legacy / Session label centered
-  .scoreboard__title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  // Table wrapper
+  .scoreboard__table {
     width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  // Title caption: Legacy / Session label
+  .scoreboard__title {
+    caption-side: top;
     padding: 0.3rem 0.75rem;
     background-color: rgba(201, 168, 76, 0.05);
     border-bottom: 1px solid colors.$color-border-subtle;
+    font-family: "Metamorphous", serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: colors.$color-text-muted;
+    text-align: center;
 
-    p {
-      font-family: "Metamorphous", serif;
-      font-size: 0.6rem;
-      font-weight: 600;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: colors.$color-text-muted;
-
-      @include mixins.breakpoint-up(768px) {
-        font-size: 0.7rem;
-      }
+    @include mixins.breakpoint-up(768px) {
+      font-size: 0.7rem;
     }
   }
 
-  // Column header row: player name — computer
-  .scoreboard__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0.3rem 0.75rem;
+  // Column headers: Player / Computer
+  .scoreboard__table thead {
     background-color: rgba(201, 168, 76, 0.08);
     border-bottom: 1px solid colors.$color-border-gold;
+  }
 
-    p {
-      font-family: "Metamorphous", serif;
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: colors.$color-gold;
-      white-space: nowrap;
-      width: 50%;
+  .scoreboard__table th {
+    width: 50%;
+    padding: 0.3rem 0.75rem;
+    font-family: "Metamorphous", serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: colors.$color-gold;
+    white-space: nowrap;
 
-      @include mixins.breakpoint-up(768px) {
-        font-size: 0.75rem;
-      }
+    @include mixins.breakpoint-up(768px) {
+      font-size: 0.75rem;
+    }
 
-      &:first-child {
-        text-align: left;
-      }
-      &:last-child {
-        text-align: right;
-      }
+    &:first-child {
+      text-align: left;
+    }
+
+    &:last-child {
+      text-align: right;
     }
   }
 
-  // Score row
-  .scoreboard__row {
-    display: flex;
-    flex-wrap: nowrap;
-    width: 100%;
-  }
-
-  // Individual score cell
+  // Score cells: Player vs Computer values
   .scoreboard__score {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 50%;
     min-height: 2.2rem;
+    padding: 0.25rem 0.75rem;
     font-family: "Metamorphous", serif;
     font-size: 1.1rem;
     font-weight: 700;
     color: colors.$color-text-primary;
+    text-align: center;
+    vertical-align: middle;
     transition:
       color 0.2s,
       background-color 0.2s;
@@ -121,12 +113,10 @@
       font-size: 1.4rem;
     }
 
-    // Divider between player and computer score
-    &:nth-child(odd) {
+    &:first-child {
       border-right: 1px solid colors.$color-border-subtle;
     }
 
-    // Accessible focus state
     &:focus {
       outline: none;
       background-color: rgba(201, 168, 76, 0.1);
