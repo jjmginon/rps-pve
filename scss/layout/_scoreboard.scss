@@ -1,10 +1,9 @@
+/* || SCOREBOARD LAYOUT */
+
 @use "../abstracts/colors" as colors;
 @use "../abstracts/mixins" as mixins;
 
-// ============================================
-// Scoreboard Layout
-// ============================================
-// Responsive scoreboard panels for legacy + session scores
+/* Responsive scoreboard panels for legacy + session scores */
 .scoreboard {
   display: flex;
   flex-wrap: wrap;

@@ -1,11 +1,8 @@
+/* || ACCESSIBILITY UTILITIES */
+
 @use "../abstracts/colors" as colors;
 
-// ============================================
-// Accessibility Utilities
-// ============================================
-
-// Utility: visually hidden but screen-reader accessible
-// (WCAG-recommended "sr-only" pattern)
+/* Screen reader only */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -19,7 +16,7 @@
   border: 0;
 }
 
-// Skip navigation link: appears on focus for keyboard users
+/* Skip navigation link */
 .skip-link {
   position: absolute;
   top: -999px;
@@ -35,7 +32,7 @@
 
   &:focus,
   &:active {
-    top: 0; // explicitly place at top of viewport
+    top: 0;
     left: 0;
   }
 }

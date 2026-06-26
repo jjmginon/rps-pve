@@ -1,14 +1,5 @@
-// ============================================
-// Game Class Module
-// ============================================
+// --- GAME CLASS MODULE --- //
 // Purpose: Encapsulates game state and logic
-// Sections:
-// - Game state (start/end)
-// - Player name management
-// - Legacy scores (persistent)
-// - Session scores (per visit)
-// - Win recording
-// - Reset methods (legacy/session)
 
 export default class Game {
 

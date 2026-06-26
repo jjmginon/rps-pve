@@ -1,18 +1,16 @@
+/* || BASE STYLES */
+
 @use "../abstracts/colors" as colors;
 @use "../abstracts/mixins" as mixins;
 
-// ============================================
-// Base Styles
-// ============================================
-
-// Reset: normalize margins, padding, and box sizing
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-// Root element: base font and background
+/* Base Styles */
 html {
   font-family: "Almendra", Georgia, serif;
   font-size: 16px;
@@ -21,7 +19,6 @@ html {
   background-color: colors.$color-bg-base;
 }
 
-// Body: texture + vignette background
 body {
   min-height: 100vh;
   background-color: colors.$color-bg-base;
@@ -40,7 +37,7 @@ body {
     );
 }
 
-// Layout container
+/* Layout container */
 main {
   display: flex;
   flex-direction: column;
@@ -51,7 +48,7 @@ main {
   padding: 0 1rem;
 }
 
-// Typography: headings
+/* Typography: headings */
 h1 {
   font-family: "Metamorphous", serif;
   font-size: 1.1rem;
@@ -79,14 +76,14 @@ h2 {
   }
 }
 
-// Accessible focus styles (keyboard users)
+/* Accessible focus styles (keyboard users) */
 h1:focus-visible,
 h2:focus-visible {
   outline: none;
   color: colors.$color-gold-bright;
 }
 
-// Inline elements
+/* Inline elements */
 abbr {
   text-decoration: none;
 }

@@ -1,31 +1,29 @@
+/* || MIXINS */
+
 @use "../abstracts/colors" as colors;
 
-// ============================================
-// Mixins
-// ============================================
-
-// Flexbox centering utility
+/* Flexbox centering utility */
 @mixin flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-// Responsive breakpoint (min-width)
+/* Responsive breakpoint (min-width) */
 @mixin breakpoint-up($width) {
   @media only screen and (min-width: $width) {
     @content;
   }
 }
 
-// Min-width + max-height breakpoint (landscape tablets)
+/* Min-width + max-height breakpoint (landscape tablets) */
 @mixin breakpoint-landscape($min-width, $max-height) {
   @media only screen and (min-width: $min-width) and (max-height: $max-height) {
     @content;
   }
 }
 
-// Raised RPG panel — dark surface with gold border and inner shadow
+/* Raised RPG panel — dark surface with gold border and inner shadow */
 @mixin panel-rpg {
   position: relative;
   background-color: colors.$color-bg-raised;
@@ -35,7 +33,7 @@
     0 0 12px rgba(201, 168, 76, 0.08);
 }
 
-// Decorative corner brackets via ::before and ::after
+/* Decorative corner brackets via ::before and ::after */
 @mixin panel-corners($size: 10px, $color: colors.$color-gold-dim) {
   &::before,
   &::after {
@@ -58,7 +56,7 @@
   }
 }
 
-// Glowing gold heading text
+/* Glowing gold heading text */
 @mixin text-gold-glow {
   color: colors.$color-gold-bright;
   text-shadow: 0 0 18px rgba(201, 168, 76, 0.5);

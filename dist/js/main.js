@@ -1,13 +1,9 @@
-// ============================================
-// Main JS entry point
-// ============================================
-// Imports: Game class
-// Constants: storage keys, weapon options
-// Guards: listener flags
-// Init: app bootstrap
+// --- MAIN JS ENTRY POINT --- //
 
+/* Imports: Game class */
 import Game from "./Game.js";
 
+/* Constants: storage keys, weapon options */
 const game = new Game();
 
 /* Storage keys */

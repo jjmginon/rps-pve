@@ -1,10 +1,4 @@
-// ============================================
-// Main SCSS entry point
-// ============================================
-// Abstracts: variables, mixins
-// Base: resets, typography
-// Components: accessibility, animations, utilities
-// Layout: scoreboard, gameboard
+/* || MAIN SCSS ENTRY POINT */
 
 @use "abstracts/colors" as colors;
 @use "abstracts/mixins" as mixins;

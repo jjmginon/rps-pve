@@ -1,12 +1,9 @@
-// ============================================
-// Animations
-// ============================================
+/* || ANIMATIONS */
 
-// Countdown number appears — scales in from nothing
-// Recruiter note: combines opacity + scale for smooth entry
+/* Countdown number appears */
 @keyframes fade-in-scale {
   0% {
-    display: none; // hidden until animation starts
+    display: none;
     opacity: 0;
     transform: scale(0.6);
   }
@@ -22,8 +19,7 @@
   }
 }
 
-// Countdown number disappears — scales out and fades
-// Recruiter note: opacity + scale for exit, display toggled at end
+/* Countdown number disappears */
 @keyframes fade-out-scale {
   0% {
     display: block;
@@ -41,8 +37,7 @@
   }
 }
 
-// Selected weapon tile — breathing gold glow
-// Recruiter note: subtle pulse effect using box-shadow
+/* Selected weapon tile */
 @keyframes pulse-gold {
   0%,
   100% {
@@ -57,8 +52,7 @@
   }
 }
 
-// Play Again / Exit buttons — rise in from below
-// Recruiter note: transform + blur for performance-friendly reveal
+/* Play Again / Exit buttons */
 @keyframes reveal-up {
   0% {
     opacity: 0;
@@ -72,8 +66,7 @@
   }
 }
 
-// Herald screen — fades out when dismissed
-// Recruiter note: simple fade for screen transitions
+/* Herald screen */
 @keyframes fade-out {
   0% {
     opacity: 1;
@@ -83,8 +76,7 @@
   }
 }
 
-// Rejected weapon tile — fades and collapses simultaneously
-// Recruiter note: combines opacity + width collapse for clear rejection
+/* Rejected weapon tile */
 @keyframes weapon-reject {
   0% {
     opacity: 1;
@@ -100,7 +92,7 @@
   }
 }
 
-// "Rock... Paper... Scissors... Shoot!" word — slides in and out
+/* "Rock... Paper... Scissors... Shoot!" chant */
 @keyframes chant-in {
   0% {
     opacity: 0;

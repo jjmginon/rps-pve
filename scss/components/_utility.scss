@@ -1,24 +1,19 @@
+/* || UTILITY CLASSES */
+
 @use "../abstracts/colors" as colors;
 @use "../abstracts/mixins" as mixins;
 
-// ============================================
-// Utility Classes
-// ============================================
-
-// Quick centering utility for text
+/* Quick centering utility for text */
 .center {
   text-align: center;
 }
 
-// Force-hide element (important override)
+/* Force-hide element (important override) */
 .hidden {
   display: none !important;
 }
 
-// ============================================
-// Play Again Button
-// ============================================
-// Themed action button with gold glow + corner brackets
+/* Play Again Button */
 .btn-play-again {
   position: relative;
   min-width: 180px;
@@ -62,10 +57,7 @@
   }
 }
 
-// ============================================
-// Herald Screen (title / name entry)
-// ============================================
-// Fullscreen overlay with RPG-themed background + dismiss animation
+/* Herald Screen (title / name entry) */
 .herald-screen {
   position: fixed;
   inset: 0;
@@ -227,10 +219,7 @@
   }
 }
 
-// ============================================
-// Herald Screen Buttons
-// ============================================
-// Themed buttons with variants for new game + reset confirmation
+/* Herald Screen Buttons */
 .btn-herald {
   position: relative;
   min-width: 140px;
@@ -287,10 +276,7 @@
   }
 }
 
-// ============================================
-// End Game Actions Wrapper
-// ============================================
-// Normal flow container for exit + play again buttons
+/* End Game Actions Wrapper */
 .end-game-actions {
   display: flex;
   flex-direction: column;
@@ -305,10 +291,7 @@
   }
 }
 
-// ============================================
-// Exit Game Button
-// ============================================
-// Secondary action button with muted styling
+/* Exit Game Button */
 .btn-exit-game {
   position: relative;
   min-width: 180px;
@@ -350,10 +333,7 @@
   }
 }
 
-// ============================================
-// Herald Screen Warning (New Game confirmation)
-// ============================================
-// Inline warning message styled with subtle emphasis
+/* Herald Screen Warning (New Game confirmation) */
 .herald-screen__warning {
   width: 100%;
   font-family: "Almendra", Georgia, serif;
@@ -363,10 +343,7 @@
   color: colors.$color-text-muted;
 }
 
-// ============================================
-// Chant Overlay ("Rock... Paper... Scissors... Shoot!")
-// ============================================
-// Fullscreen overlay shown during the countdown chant
+/* Chant Overlay ("Rock... Paper... Scissors... Shoot!") */
 .chant-overlay {
   position: fixed;
   inset: 0;
