@@ -28,7 +28,8 @@ rps-pve/
 │   ├── js/
 │   │   ├── Game.js       # Game state and logic class
 │   │   └── main.js       # App bootstrap, herald, chant, round resolution
-│   └── img/              # Weapon images (rock, paper, scissors)
+│   ├── img/              # Weapon images (rock, paper, scissors)
+│   └── favicon/          # Favicon and PWA assets
 │
 ├── scss/
 │   ├── abstracts/        # Colors, mixins
