@@ -1,5 +1,7 @@
 # Rock Paper Scissors: PvE ⚔️📜
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4ba17d45-36ff-4e4f-88d0-23c601403066/deploy-status)](https://app.netlify.com/projects/rps-pve/deploys)
+
 Rock Paper Scissors: PvE is a reimagined take on the classic duel — blending RPG‑style panels, immersive chant sequences, and gold‑trimmed aesthetics into a modern web experience. Designed in 2026, the project elevates simple gameplay with accessibility‑first structure, performance‑optimized styling, and dynamic JavaScript logic.
 
 ---
