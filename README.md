@@ -65,7 +65,7 @@ rps-pve/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/rps-pve.git
+   git clone https://github.com/jjmginon/rps-pve.git
    ```
 2. Navigate into the project folder:
    ```bash
