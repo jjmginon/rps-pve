@@ -129,6 +129,12 @@
   }
 }
 
+/* Computer board tiles are display-only — never interactive */
+.computer-board .gameboard {
+  pointer-events: none;
+  cursor: default;
+}
+
 /* Computer board */
 .computer-board--chosen {
   opacity: 0.5;
