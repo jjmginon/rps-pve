@@ -71,7 +71,9 @@ rps-pve/
    ```bash
    cd rps-pve
    ```
-3. Open `dist/index.html` in your browser to play the game.
+3. This project uses ES modules, which require a local server rather than opening the file directly. The easiest option is the **Live Server** extension for VS Code — it also gives you automatic browser reload during development.
+
+   Install **Live Server** by Ritwick Dey from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer), then open the `dist` folder in VS Code and select **Go Live** from the status bar.
 
 ---
 
