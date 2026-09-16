@@ -162,6 +162,7 @@ const startGame = () => {
     }
 
     lockComputerBoardHeight();
+    lockPlayerBoardHeight();
     computerPicksFirst();
     document.querySelector("h1").focus();
 };
@@ -503,6 +504,12 @@ const lockComputerBoardHeight = () => {
     const computerGameboard = document.querySelector(".computer-board .gameboard");
     const computedHeight = getComputedStyle(computerGameboard).getPropertyValue("height");
     computerGameboard.style.minHeight = computedHeight;
+};
+
+const lockPlayerBoardHeight = () => {
+    const playerGameboard = document.querySelector(".player-board .gameboard");
+    const computedHeight = getComputedStyle(playerGameboard).getPropertyValue("height");
+    playerGameboard.style.minHeight = computedHeight;
 };
 
 const createWeaponImage = (weapon, parentEl) => {
